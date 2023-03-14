@@ -64,10 +64,12 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
     });
 
     useEffect(() => {
-        console.log("here1")
-        console.log(formik.errors)
-        setProceedNext(formik.isValid)
-    }, [formik.isValid]);
+        if (Object.keys(formik.errors).length === 0) {
+          setProceedNext(true);
+        } else {
+          setProceedNext(false);
+        }
+      }, [formik]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         formik.handleChange(event);
