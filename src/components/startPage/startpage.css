@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    min-height: 60vh;
+  }
+  
+  .logo {
+    height: 48px;
+    width: 48px;
+    margin-right: 16px;
+  }
+  
+  .heading {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .button {
+    margin-top: 24px;
+  }
