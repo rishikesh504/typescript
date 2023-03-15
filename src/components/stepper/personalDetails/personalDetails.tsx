@@ -181,11 +181,11 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
 
                                         <TextField
                                             {...params}
-                                            onBlur={formik.handleBlur}
+                                        
                                             name="dateofbirth" // use correct field name
-                                        error={Boolean(formik.touched.dateofbirth) && Boolean(formik.errors.dateofbirth)}
+                                        error={Boolean(formik.errors.dateofbirth)}
                                         helperText={formik.touched.dateofbirth || formik.errors.dateofbirth  ? formik.errors.dateofbirth+"":''}
-
+                                        onBlur={formik.handleBlur}
                                         />
                                     )}
                                 />
