@@ -53,7 +53,7 @@ const validationSchema = Yup.object({
 });
 
 const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setProceedNext }: PersonalDetailsProps) => {
-    console.log("wwe")
+    
     const initialValues: PersonalDetails = user.personalDetails
     const formik = useFormik<PersonalDetails>({
         initialValues,
@@ -66,9 +66,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
 
 
     useEffect(() => {
-        console.log("here1")
-        console.log(formik.errors)
-        console.log(formik.values)
+
         if (Object.keys(formik.errors).length === 0 && !Object.values(formik.values).some(val => val === '')) {
             setProceedNext(true);
             onPersonalDetailsChange({
@@ -84,7 +82,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
         formik.handleChange(event);
     };
     const handleDateOfBirthChange = (date: Date | null) => {
-        console.log(date)
+      
         formik.setFieldValue("dateofbirth", date); // use correct field name
 
     };

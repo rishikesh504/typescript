@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
 });
 
 const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }:BankDetailsProps ) => {
-  console.log("wwe3")
+
     const initialValues: BankDetails = user.bankDetails
     const formik = useFormik<BankDetails>({
     initialValues,
@@ -42,9 +42,7 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
   });
 
   useEffect(() => {
-    console.log("here1")
-    console.log(formik.errors)
-    console.log(formik.values)
+
     if (Object.keys(formik.errors).length === 0 && !Object.values(formik.values).some(val => val === '')) {
       setProceedNext(true);
       onBankDetailsChange({

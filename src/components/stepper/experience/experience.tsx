@@ -57,15 +57,13 @@ const ExperienceForm = ({
         initialValues,
         validationSchema,
         onSubmit: (values) => {
-            console.log(values);
+       
         },
     });
 
 
     useEffect(() => {
-        console.log("here1")
-        console.log(formik.errors)
-        console.log(formik.values.experiences)
+        
         if ((formik.errors.experiences?.length === 0 || Object.keys(formik.errors).length === 0) && 
             !formik.values.experiences.some(obj => Object.values(obj).some(value => value === null || value === ''))) {
           setProceedNext(true);
@@ -102,7 +100,7 @@ const ExperienceForm = ({
                 const errorCompany = getIn(errors, company);
 
                 const role = `experiences[${index}].role`;
-                console.log(role)
+       
                 const touchedRole = getIn(touched, role);
                 const errorRole = getIn(errors, role);
 

@@ -42,7 +42,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
       }
       
       const handleUserDetailsChange = (updatedUser:User) => {
-        console.log("in parent")
+
         handleChangeUser(updatedUser)
       };
 
@@ -51,7 +51,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
 
       const handleNext = () => {
         setActiveStep(prevActiveStep=>prevActiveStep+1);
-        if( activeStep==3 ){
+        if( activeStep==4){
           handleSubmit(user)
         }
     };
@@ -106,7 +106,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
          
         )}  
            {activeStep === 4 && (
-           <EndStep></EndStep>
+           <EndStep/>
         )}     
 
 

@@ -60,15 +60,13 @@ const EducationForm = ({
         initialValues,
         validationSchema,
         onSubmit: (values) => {
-            console.log(values);
+        
         },
     });
 
 
     useEffect(() => {
-        console.log("here1")
-        console.log(formik.errors)
-        console.log(formik.values.educations)
+    
         if ((formik.errors.educations?.length === 0 || Object.keys(formik.errors).length === 0) && 
             !formik.values.educations.some(obj => Object.values(obj).some(value => value === null || value === ''))) {
           setProceedNext(true);
