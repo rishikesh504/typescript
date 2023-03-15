@@ -55,7 +55,7 @@ const ExperienceForm = ({
 
     const formik = useFormik({
         initialValues,
-        validationSchema:{validationSchema},
+        validationSchema,
         onSubmit: (values) => {
             console.log(values);
         },
