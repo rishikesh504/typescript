@@ -16,10 +16,18 @@ interface BankDetailsProps {
     proceedNext:boolean
     
   }
+  const panRegex = RegExp(
+    /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+)
+  const aadhaarRegex = RegExp(
+    /^([0-9]{4}[0-9]{4}[0-9]{4}$)|([0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|([0-9]{4}-[0-9]{4}-[0-9]{4}$)/
+  )
+
+
 
 const validationSchema = Yup.object({
-  pan: Yup.string().required('PAN is required'),
-  aadhaar: Yup.string().required('Aadhaar is required'),
+  pan: Yup.string().matches(panRegex, "Invalid Pan").required("PAN is required"),
+  aadhaar: Yup.string().matches(aadhaarRegex, "Invalid Aadhaar").required("Aadhaar is required"),
   bankname: Yup.string().required('Bank name is required'),
   bankaccountnumber: Yup.string()
     .required('Bank account number is required')

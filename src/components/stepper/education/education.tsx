@@ -38,7 +38,7 @@ const validationSchema = Yup.object().shape({
             from: Yup.date().required("Joining Date  is required"),
             till: Yup.date().required("Leaving is required"),
             percentage:  Yup.number()
-            .typeError('percentage must be a number').required("Percentage is required"),
+            .typeError('percentage must be a number').max(100,"Enter Approx Like 80 for 79.6%").min(0,"Enter Approx Like 80 for 79.6%").required("Percentage is required"),
             type: Yup.string().required("Type is required")
         })
     )
@@ -164,6 +164,7 @@ const EducationForm = ({
                                             variant="outlined"
                                             label="Percentage"
                                             name={percentage}
+                                            placeholder="Approx Percent"
                                             value={education.percentage}
                                             required
                                             helperText={
