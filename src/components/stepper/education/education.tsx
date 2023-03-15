@@ -179,7 +179,7 @@ const EducationForm = ({
 
                                     </Grid>
                                     <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
-                                        <div style={{ width: '88%' }}>
+                                        <div style={{ width: '90%' }}>
                                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                                 <DatePicker
                                                     label="From"
@@ -208,7 +208,7 @@ const EducationForm = ({
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
-                                        <div style={{ width: '88%' }}>
+                                        <div style={{ width: '90%' }}>
                                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                                 <DatePicker
                                                     label="Till"
@@ -294,7 +294,7 @@ const EducationForm = ({
                             alert("please fill all current education fields then add new one")
                             return;
                         }
-                        formik.setFieldValue("educations", [...values.educations, { company: "", role: "",from: new Date(), till: new Date() }])
+                        formik.setFieldValue("educations", [...values.educations, { college: "", percentage: "",from: new Date(), till: new Date(),stream:"",type:"" }])
                     }
                     }
                 />
