@@ -18,9 +18,7 @@ const App: FC = () => {
   return (
     <div className="App">
       <motion.div className="TopContainer" initial={{ y: -250 }} animate={{ y: 0 }} transition={{ delay: 0.2, type: 'spring', stiffness: 150 }} >    
-       
         <div style={{ height: '50%', display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '10px' }}>
-        
           <h1 className="heading" >Employee Management </h1>
         
         </div>
