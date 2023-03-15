@@ -2,7 +2,7 @@ import { TextField, Button, Grid, IconButton, Card, Box } from '@mui/material';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 import User from '../../../types/userType';
-import { useFormik } from 'formik';
+import { getIn, useFormik } from 'formik';
 import { Delete } from '@mui/icons-material';
 import { width } from '@mui/system';
 import { on } from 'stream';
@@ -16,6 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 
+
 interface ExperienceProps {
     user: User
     onExperienceDetailChange: any
@@ -27,16 +28,18 @@ interface FormValues {
     experiences: Experience[];
 }
 
-const experienceSchema = Yup.object().shape({
-    company: Yup.string().required("Company is required"),
-    role: Yup.string().required(),
-    from: Yup.number().required(),
-    till: Yup.number().required(),
+
+
+const validationSchema = Yup.object().shape({
+    experiences: Yup.array().of(
+        Yup.object().shape({
+            company: Yup.string().required("Company is required"),
+            role: Yup.string().required("role is required"),
+            from: Yup.date().required("Joining Date  is required"),
+            till: Yup.date().required("Leaving is required")
+        })
+    )
 });
-
-const validationSchema = Yup.array().of(experienceSchema);
-
-
 
 
 
@@ -52,176 +55,201 @@ const ExperienceForm = ({
 
     const formik = useFormik({
         initialValues,
-        validationSchema,
-        // validateOnMount: true,
+        validationSchema:{validationSchema},
         onSubmit: (values) => {
             console.log(values);
         },
     });
 
 
-
-
-
-
-    const addExperience = () => {
-        var nullexp = formik.values.experiences.find((user: Experience) => user.company == '' || user.role == '');
-        if (nullexp) {
-            alert("please fill all current experience fields then add new one")
-            return;
-        }
-        formik.setFieldValue('experiences', [...formik.values.experiences, { company: '', role: '', from: new Date(), till: new Date}]);
-        onExperienceDetailChange({
-            ...user,
-            experienceList: [...user.experienceList, { company: '', role: '', from: new Date(), till: new Date() }],
-        });
-
-
-    };
-
-
-    const handleInputChange = useCallback((name: string, value: any, index: number) => {
-        const experiences = [...formik.values.experiences];
-        console.log(experiences)
-        experiences[index] = { ...experiences[index], [name]: name === 'from' || name === 'till' ? new Date(value) : value };
-        formik.setFieldValue('experiences', experiences);
-        onExperienceDetailChange({
-            ...user,
-            experienceList: [...experiences]
-
-        })
+    useEffect(() => {
+        console.log("here1")
         console.log(formik.errors)
-
-    }, [formik.values.experiences, onExperienceDetailChange, user]);
-
-
-
-    const removeExperience = (index: number) => {
-        const experiences = [...formik.values.experiences];
-        experiences.splice(index, 1);
-        formik.setFieldValue('experiences', experiences);
-        onExperienceDetailChange({
+        console.log(formik.values.experiences)
+        if ((formik.errors.experiences?.length === 0 || Object.keys(formik.errors).length === 0) && 
+            !formik.values.experiences.some(obj => Object.values(obj).some(value => value === null || value === ''))) {
+          setProceedNext(true);
+          onExperienceDetailChange({
             ...user,
-            experienceList: [...experiences],
-        });
-    };
+            experienceList: [...formik.values.experiences]
+          });
+        } else {
+          setProceedNext(false);
+        }
+      }, [formik.isValid,formik.values.experiences]);
+
+
+    const { values, touched, errors, handleChange, handleBlur, isValid, handleSubmit, handleReset, setFieldValue } = formik;
 
 
 
-    // const handleFromDateChange = (index, date) => {
-    //     const list = [...experienceListState];
-    //     const formattedDate = new Date(date).toLocaleDateString('en-GB');
-    //     list[index] = { ...list[index], from: formattedDate };
-    //     setExperienceListState(list);
 
-    //     onExperienceDetailsChange({
-    //       ...user,
-    //       experienceList: [...list]
-    //     });
-    //   };
 
-    //   const handleTillDateChange = (index, date) => {
-    //     const list = [...experienceListState];
-    //     const formattedDate = new Date(date).toLocaleDateString('en-GB');
-    //     list[index] = { ...list[index], till: formattedDate };
-    //     setExperienceListState(list);
 
-    //     onExperienceDetailsChange({
-    //       ...user,
-    //       experienceList: [...list]
-    //     });
-    //   };
+
+
+
+
+
+
 
     return (
         <form onSubmit={formik.handleSubmit}>
 
-            <Grid container spacing={2} marginTop={2}>
+            {formik.values.experiences.map((experience: Experience, index: number) => {
+                const company = `experiences[${index}].company`;
+                const touchedCompany = getIn(touched, company);
+                const errorCompany = getIn(errors, company);
 
-                {formik.values.experiences.map((experience: Experience, index: number) => (
-                    <Card key={index} sx={{ boxShadow: 1, backgroundColor: 'white', border: 1, borderColor: 'grey.400', borderRadius: '16px', my: 1 }}>
-                        <Box p={2}>
-                            <span style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}><h2> {experience.role || `Experience${index + 1}`} </h2>
-                                <DeleteIcon onClick={() => removeExperience(index)} style={{ color: 'red', cursor: 'pointer' }} />
-                            </span>
-                            <Grid container key={`${index}`}>
-                                <Grid item xs={12} sm={6} marginTop={1} >
-                                    <TextField
-                                        name={`experiences[${index}].company`}
-                                        label="Company"
-                                        value={experience.company}
-                                        onChange={(e) => handleInputChange('company', e.target.value, index)}
-                                        onBlur={formik.handleBlur}
-                                        error={!!(formik.errors.experiences && formik.touched.experiences && formik.touched.experiences[index] && formik.errors.experiences[index] as Experience && (formik.errors.experiences[index] as Experience).company)}
-                                        helperText={(formik.errors.experiences && formik.touched.experiences) && (formik.touched.experiences[index])?.company && (formik.errors.experiences[index] as Experience)?.company}
-                                    />
+                const role = `experiences[${index}].role`;
+                console.log(role)
+                const touchedRole = getIn(touched, role);
+                const errorRole = getIn(errors, role);
+
+                const from = `experiences[${index}].from`;
+                const touchedFrom = getIn(touched, from);
+                const errorFrom = getIn(errors, from);
+
+                const till = `experiences[${index}].till`;
+                const touchedTill = getIn(touched, till);
+                const errorTill = getIn(errors, till);
 
 
-                                </Grid>
-                                <Grid item xs={12} sm={6} marginTop={1} marginBottom={2}>
-                                    <TextField
-                                        name={`experiences[${index}].role`}
-                                        label="Role"
-                                        value={experience.role}
-                                        onChange={(e) => handleInputChange('role', e.target.value, index)}
-                                        onBlur={formik.handleBlur}
-                                        // error={formik.touched.experiences?.[index]?.role && Boolean(formik.errors.experiences?.[index]?.role)}
-                                        // helperText={formik.touched.experiences?.[index]?.role && formik.errors.experiences?.[index]?.role}
-                                    />
+                return (
+                    <Grid container key={`${index}`}>
+                        <Card key={index} sx={{ boxShadow: 1, backgroundColor: 'white', border: 1, borderColor: 'grey.400', borderRadius: '16px', my: 1 }}>
+                            <Box p={2}>
+                                <span style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}><h2> {experience.role || `Experience${index + 1}`} </h2>
+                                    <DeleteIcon
+                                        onClick={() =>
+                                            formik.setFieldValue("experiences", values.experiences.filter((_, i) => i !== index))}
 
-
-                                </Grid>
-                                <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
-                                <div style={{width:'88%'}}>
-                                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                                        <DatePicker
-                                           label="FROM"
-                                           maxDate={new Date()}
-                                           value={new Date(experience.from).toLocaleDateString('en-US')}
-                                           inputFormat="DD-MM-YYYY"
-                                            onChange={(date: Date|null) => handleInputChange("from",date,index)}
-                                        
-                                            renderInput={(params: any) => <TextField {...params} name={`experiences[${index}].from`} onBlur={formik.handleBlur}
-
-                                            />}
+                                        style={{ color: 'red', cursor: 'pointer' }} />
+                                </span>
+                                <Grid container key={`${index}`}>
+                                    <Grid item xs={12} sm={6} marginTop={1} >
+                                        <TextField
+                                            margin="normal"
+                                            variant="outlined"
+                                            label="Company"
+                                            name={company}
+                                            value={experience.company}
+                                            required
+                                            helperText={
+                                                touchedCompany && errorCompany
+                                                    ? errorCompany + ""
+                                                    : ""
+                                            }
+                                            error={Boolean(touchedCompany && errorCompany)}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
-                                    </LocalizationProvider>
-                                </div>
-                                </Grid>
-                                <Grid item xs={12} sm={6} marginTop={2}>
-                                <div style={{width:'88%'}}>
-                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                        <DatePicker
-                                           label="Till"
-                                           maxDate={new Date()}
-                                           minDate={moment(new Date(experience.from).toLocaleDateString('en-US')).toDate()}
-                                           value={new Date(experience.till).toLocaleDateString('en-US')}
-                                           inputFormat="DD-MM-YYYY"
-                                           onChange={(date: Date|null) => handleInputChange("till",date,index)}
-                                        
-                                            renderInput={(params: any) => <TextField {...params} name={`experiences[${index}].from`} onBlur={formik.handleBlur}
 
-                                            />}
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} marginTop={1} marginBottom={2}>
+                                        <TextField
+                                            margin="normal"
+                                            variant="outlined"
+                                            label="Role"
+                                            name={role}
+                                            value={experience.role}
+                                            required
+                                            helperText={
+                                                touchedRole && errorRole
+                                                    ? errorRole + ""
+                                                    : ""
+                                            }
+                                            error={Boolean(touchedRole && errorRole)}
+                                            onChange={handleChange}
+
                                         />
-                                    </LocalizationProvider>
-                                    </div>
+
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
+                                        <div style={{ width: '90%' }}>
+                                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                <DatePicker
+                                                    label="From"
+                                                    maxDate={new Date()}
+                                                    value={experience.from}
+                                                    inputFormat="DD/MM/YYYY"
+                                                    onChange={date => setFieldValue(from, date)}
+
+                                                    renderInput={(params: any) => <TextField {...params}
+                                                        helperText={
+                                                            touchedFrom && errorFrom
+                                                                ? errorFrom + ""
+                                                                : ""
+                                                        }
+                                                        error={Boolean(touchedFrom && errorFrom)}
+                                                        onBlur={handleBlur}
+
+                                                    />
+                                                    }
+                                                />
+
+
+
+
+                                            </LocalizationProvider>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
+                                        <div style={{ width: '90%' }}>
+                                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                <DatePicker
+                                                    label="Till"
+                                                    maxDate={new Date()}
+                                                    minDate={experience.from}
+                                                    value={experience.till}
+                                                    inputFormat="DD/MM/YYYY"
+                                                    onChange={date => setFieldValue(till, date)}
+
+                                                    renderInput={(params: any) => <TextField {...params}
+                                                        helperText={
+                                                            touchedTill && errorTill
+                                                                ? errorTill + ""
+                                                                : ""
+                                                        }
+                                                        error={Boolean(touchedTill && errorTill)}
+                                                        onBlur={handleBlur}
+
+                                                    />
+                                                    }
+                                                />
+
+
+
+
+                                            </LocalizationProvider>
+                                        </div>
+                                    </Grid>
+
+
                                 </Grid>
+                            </Box>
+
+                        </Card>
+                    </Grid>
+                )
+            })}
 
 
-                            </Grid>
-                        </Box>
-                    </Card>
-                ))}
 
-                {/* <Grid item xs={12}>
-                    <Button type="button" >
-                        Add Experience
-                    </Button>
-                </Grid> */}
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }} >
+                <AddCircleOutlineIcon style={{ color: 'blue', cursor: 'pointer', height: '70px' }}
+                    onClick={() => {
+                        let nullexp = formik.values.experiences.find((user: Experience) => user.company == '' || user.role == '');
+                        if (nullexp) {
+                            alert("please fill all current experience fields then add new one")
+                            return;
+                        }
+                        formik.setFieldValue("experiences", [...values.experiences, { company: "", role: "",from: new Date(), till: new Date() }])
+                    }
+                    }
+                />
+            </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }} >
-                    <AddCircleOutlineIcon style={{ color: 'blue', cursor: 'pointer', height: '35px' }} onClick={() => addExperience()} />
-                </div>
-            </Grid>
 
 
 

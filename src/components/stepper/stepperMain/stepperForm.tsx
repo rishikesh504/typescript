@@ -42,6 +42,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
       }
       
       const handleUserDetailsChange = (updatedUser:User) => {
+        console.log("in parent")
         handleChangeUser(updatedUser)
       };
 
@@ -89,7 +90,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
            
         {activeStep === 0 && (
           <PersonalDetailsForm  user={user} onPersonalDetailsChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
-        
+          // <ExperienceForm user={user} onExperienceDetailChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
         
            )}   
          

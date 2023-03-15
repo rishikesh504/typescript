@@ -1,22 +1,25 @@
+
 import React from "react";
+// import {useDispatch} from "react-redux";
+// import { searchUser } from "../../actions/actions";
 import {motion} from "framer-motion"
 
+
+
+
+
+
+
+
 interface SearchUserProps {
-    searchQuery:string
-    onChangeQuery:any
-  }
+  searchQuery: string;
+  onChangeQuery: any;
+}
 
-
-
-
-
-
-const SearchComponent =({searchQuery,onChangeQuery}:SearchUserProps)=> {
-
- const handleSearch =(event:any) => {
-    onChangeQuery(event.target.value)
-  }
-// const dispatch = useDispatch()
+const SearchComponent = ({ searchQuery, onChangeQuery }: SearchUserProps) => {
+  const handleSearch = (event: any) => {
+    onChangeQuery(event.target.value);
+  };
 
 
   return (

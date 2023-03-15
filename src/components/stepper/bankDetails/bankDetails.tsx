@@ -30,11 +30,12 @@ const validationSchema = Yup.object({
 });
 
 const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }:BankDetailsProps ) => {
+  console.log("wwe3")
     const initialValues: BankDetails = user.bankDetails
     const formik = useFormik<BankDetails>({
     initialValues,
     validationSchema,
-    validateOnMount: true,
+
     onSubmit: (values) => {
       // Handle form submission here
     }
@@ -43,22 +44,21 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
   useEffect(() => {
     console.log("here1")
     console.log(formik.errors)
-    if (Object.keys(formik.errors).length === 0) {
+    console.log(formik.values)
+    if (Object.keys(formik.errors).length === 0 && !Object.values(formik.values).some(val => val === '')) {
       setProceedNext(true);
+      onBankDetailsChange({
+        ...user,
+        bankDetails:formik.values
+    });
     } else {
       setProceedNext(false);
     }
-  }, [formik]);
+  }, [formik.isValid,formik.values]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(event);
-    onBankDetailsChange({
-        ...user,
-        bankDetails: {
-            ...user.bankDetails,
-          [event.target.name]: event.target.value
-        }
-      });
+   
 
   };
 
@@ -145,16 +145,7 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
             }
               />
               </Grid>
-    {/* <Grid item xs={12}>
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={formik.isSubmitting}
-      >
-        Submit
-      </Button>
-    </Grid> */}
+   
   </Grid>
 </form>
 );

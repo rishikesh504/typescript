@@ -53,44 +53,40 @@ const validationSchema = Yup.object({
 });
 
 const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setProceedNext }: PersonalDetailsProps) => {
+    console.log("wwe")
     const initialValues: PersonalDetails = user.personalDetails
     const formik = useFormik<PersonalDetails>({
         initialValues,
         validationSchema,
-        validateOnMount: true,
+        // validateOnMount: true,
         onSubmit: (values) => {
             // Handle form submission here
         }
     });
+ 
 
     useEffect(() => {
-        if (Object.keys(formik.errors).length === 0) {
+        console.log("here1")
+        console.log(formik.errors)
+        console.log(formik.values)
+        if (Object.keys(formik.errors).length === 0 && !Object.values(formik.values).some(val => val === '')) {
           setProceedNext(true);
+          onPersonalDetailsChange({
+            ...user,
+            personalDetails:formik.values
+        });
         } else {
           setProceedNext(false);
         }
-      }, [formik]);
+      }, [formik.isValid,formik.values]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         formik.handleChange(event);
-        onPersonalDetailsChange({
-            ...user,
-            personalDetails: {
-                ...user.personalDetails,
-                [event.target.name]: event.target.value
-            }
-        });
-
     };
     const handleDateOfBirthChange = (date: Date | null) => {
+        console.log(date)
         formik.setFieldValue("dateofbirth", date); // use correct field name
-        onPersonalDetailsChange({
-            ...user,
-            personalDetails: {
-                ...user.personalDetails,
-                ["dateofbirth"]: date // use correct field name
-            }
-        });
+     
     };
 
 
@@ -171,17 +167,6 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    {/* <TextField
-                        label="Date of Birth"
-                        variant="outlined"
-                        fullWidth
-                        name="dateofbirth"
-                        onBlur={formik.handleBlur}
-                        value={formik.values.dateofbirth}
-                        onChange={handleChange}
-                        error={formik.touched.dateofbirth && Boolean(formik.errors.dateofbirth)}
-                        // helperText={formik.touched.dateofbirth && formik.errors.dateofbirth}
-                    /> */}
                     <div style={{ width: '100%' }}>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -198,7 +183,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                                             onBlur={formik.handleBlur}
                                             name="dateofbirth" // use correct field name
                                             error={formik.touched.dateofbirth && Boolean(formik.errors.dateofbirth)}
-                                            helperText={formik.errors.dateofbirth ? formik.errors.dateofbirth+"":''}
+                                            helperText={formik.touched.dateofbirth || formik.errors.dateofbirth  ? formik.errors.dateofbirth+"":''}
                                             
                                         />
                                     )}
