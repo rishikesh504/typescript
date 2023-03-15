@@ -10,6 +10,7 @@ import "./App.css"
 
 
 const App: FC = () => {
+  let  display = []
 
   const numberOfUsers:number = useSelector((state: RootState) => state.userReducer.users.length);
 
@@ -20,7 +21,7 @@ const App: FC = () => {
        
         <div style={{ height: '50%', display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '10px' }}>
         
-          <h1 className="heading">Employee Management </h1>
+          <h1 className="heading" >Employee Management </h1>
         
         </div>
 

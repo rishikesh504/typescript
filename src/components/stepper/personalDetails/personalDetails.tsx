@@ -63,22 +63,22 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
             // Handle form submission here
         }
     });
- 
+
 
     useEffect(() => {
         console.log("here1")
         console.log(formik.errors)
         console.log(formik.values)
         if (Object.keys(formik.errors).length === 0 && !Object.values(formik.values).some(val => val === '')) {
-          setProceedNext(true);
-          onPersonalDetailsChange({
-            ...user,
-            personalDetails:formik.values
-        });
+            setProceedNext(true);
+            onPersonalDetailsChange({
+                ...user,
+                personalDetails: formik.values
+            });
         } else {
-          setProceedNext(false);
+            setProceedNext(false);
         }
-      }, [formik.isValid,formik.values]);
+    }, [formik.isValid, formik.values]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         formik.handleChange(event);
@@ -86,7 +86,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
     const handleDateOfBirthChange = (date: Date | null) => {
         console.log(date)
         formik.setFieldValue("dateofbirth", date); // use correct field name
-     
+
     };
 
 
@@ -153,6 +153,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                         <MenuItem value="Others">Others</MenuItem>
                     </TextField>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                     <TextField
                         label="Country"
@@ -175,24 +176,39 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                                     inputFormat="DD/MM/YYYY"
                                     value={formik.values.dateofbirth} // use correct field name
                                     onChange={handleDateOfBirthChange}
-                                   
+
                                     renderInput={(params) => (
+
                                         <TextField
                                             {...params}
-                                
                                             onBlur={formik.handleBlur}
                                             name="dateofbirth" // use correct field name
-                                            error={formik.touched.dateofbirth && Boolean(formik.errors.dateofbirth)}
-                                            helperText={formik.touched.dateofbirth || formik.errors.dateofbirth  ? formik.errors.dateofbirth+"":''}
-                                            
+                                        error={Boolean(formik.touched.dateofbirth) && Boolean(formik.errors.dateofbirth)}
+                                        helperText={formik.touched.dateofbirth || formik.errors.dateofbirth  ? formik.errors.dateofbirth+"":''}
+
                                         />
                                     )}
                                 />
                             </LocalizationProvider>
 
                         </LocalizationProvider>
-            
+
                     </div>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        label="Address"
+                        variant="outlined"
+                        fullWidth
+                        name="address1"
+                        multiline={true}
+                        rows={1}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.address1}
+                        onChange={handleChange}
+                        error={formik.touched.address1 && Boolean(formik.errors.address1)}
+                        helperText={formik.touched.address1 && formik.errors.address1}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -247,19 +263,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                         helperText={formik.touched.pincode && formik.errors.pincode}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Address 1"
-                        variant="outlined"
-                        fullWidth
-                        name="address1"
-                        onBlur={formik.handleBlur}
-                        value={formik.values.address1}
-                        onChange={handleChange}
-                        error={formik.touched.address1 && Boolean(formik.errors.address1)}
-                        helperText={formik.touched.address1 && formik.errors.address1}
-                    />
-                </Grid>
+
 
                 {/* <Grid item xs={12}>
       <Button

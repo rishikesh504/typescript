@@ -137,7 +137,7 @@ const ExperienceForm = ({
                                             required
                                             helperText={
                                                 touchedCompany && errorCompany
-                                                    ? errorCompany + ""
+                                                    ? errorCompany
                                                     : ""
                                             }
                                             error={Boolean(touchedCompany && errorCompany)}
@@ -155,18 +155,19 @@ const ExperienceForm = ({
                                             value={experience.role}
                                             required
                                             helperText={
-                                                touchedRole && errorRole
-                                                    ? errorRole + ""
+                                               touchedRole && errorRole 
+                                                    ? errorRole
                                                     : ""
                                             }
-                                            error={Boolean(touchedRole && errorRole)}
+                                              error={Boolean(touchedRole && errorRole) }
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
 
                                         />
 
                                     </Grid>
                                     <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
-                                        <div style={{ width: '90%' }}>
+                                        <div style={{ width: '93%' }}>
                                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                                 <DatePicker
                                                     label="From"
@@ -195,7 +196,7 @@ const ExperienceForm = ({
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm={6} marginTop={2} marginBottom={2}>
-                                        <div style={{ width: '90%' }}>
+                                        <div style={{ width: '93%' }}>
                                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                                 <DatePicker
                                                     label="Till"

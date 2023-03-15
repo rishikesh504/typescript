@@ -35,7 +35,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
       setProceedNext(true)
     }
 
-    const steps = ['Personal Details', 'Bank Details', 'Experience', 'Education'];
+    const steps = ['Personal Details', 'Bank Details', 'Education','Experience'];
 
          const handleClose = () => {
         setOpenModel(false)
@@ -74,7 +74,7 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
         <Dialog open={openModel} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>{editingState ? "Edit User" :"Add User" }</DialogTitle>
         <DialogContent>
-        <Box sx={{ width: '100%' , maxHeight:'550px',minHeight:'550px' }}>
+        <Box sx={{ width: '100%' , maxHeight:'475px',minHeight:'475px' }}>
      
          <Stepper activeStep={activeStep}>
               {steps.map((label, index) => {
@@ -98,11 +98,12 @@ const StepperForm = ({ handleSubmit,openModel,setOpenModel,user,editingState,han
            <BankDetailsForm  user={user} onBankDetailsChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext} />
         )}   
            {activeStep === 2 && (
-             <ExperienceForm user={user} onExperienceDetailChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
+                  <EducationForm user={user} onEducationDetailChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
             
         )}  
            {activeStep === 3 && (
-            <EducationForm user={user} onEducationDetailChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
+                    <ExperienceForm user={user} onExperienceDetailChange={handleUserDetailsChange} proceedNext={proceedNext} setProceedNext={setProceedNext}/>
+         
         )}  
            {activeStep === 4 && (
            <EndStep></EndStep>

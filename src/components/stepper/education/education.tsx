@@ -37,7 +37,8 @@ const validationSchema = Yup.object().shape({
             stream: Yup.string().required("stream is required"),
             from: Yup.date().required("Joining Date  is required"),
             till: Yup.date().required("Leaving is required"),
-            percentage: Yup.number().required("Percentage is required"),
+            percentage:  Yup.number()
+            .typeError('percentage must be a number').required("Percentage is required"),
             type: Yup.string().required("Type is required")
         })
     )
@@ -174,6 +175,7 @@ const EducationForm = ({
                                             }
                                             error={Boolean(touchedPercentage && errorPercentage)}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
 
                                         />
 
@@ -252,6 +254,7 @@ const EducationForm = ({
                                             }
                                             error={Boolean(touchedStream && errorStream)}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
 
                                         />
 
@@ -271,7 +274,7 @@ const EducationForm = ({
                                             }
                                             error={Boolean(touchedType && errorType)}
                                             onChange={handleChange}
-
+                                            onBlur={handleBlur}
                                         />
 
                                     </Grid>

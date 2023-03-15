@@ -5,18 +5,76 @@ import { RootState } from "./rootReducer";
 
 
 
+
+// var nba  =  {
+//   "id": 1,
+//   "personalDetails": {
+//       "name": "dasdasdadasds",
+//       "email": "asdsadsad@gmail.com",
+//       "gender": "Male",
+//       "phone": "8853176201",
+//       "address1": "wwe",
+//       "address2": "SD",
+//       "country": "DSADA",
+//       "state": "DADA",
+//       "city": "ADADS",
+//       "pincode": "226025",
+//       "dateofbirth": new Date ()
+//   },
+//   "bankDetails": {
+//       "pan": "DNLPK6410B",
+//       "aadhaar": "789034556400",
+//       "bankname": "ssSD",
+//       "bankaccountnumber": "8888",
+//       "ifsc": "ASDASDAD"
+//   },
+//   "experienceList": [
+//       {
+//           "company": "www",
+//           "role": "www",
+//           "from": new Date (),
+//           "till": new Date ()
+//       }
+//   ],
+//   "educationList": [
+//       {
+//           "college": "wwwe",
+//           "percentage": "88",
+//           "stream": "wwe",
+//           "type": "ee",
+//           "from": new Date (),
+//           "till": new Date () 
+//                  }
+//   ]
+// }
+
+
+// var wwe = Array.from({ length: 100 }, () => nba);
+
+
+
+
+
+
 interface UserState {
   users: User[];
 }
 
 const initialState: UserState = {
-  users: [],
-};
 
+  users: []
+
+  
+   
+}
 export const userReducer = (
+  
   state: UserState = initialState,
+  
   action: UserAction
 ): UserState => {
+
+
   switch (action.type) {
     case ActionTypes.ADD_USER:
       return {

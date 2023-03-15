@@ -67,7 +67,59 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} marginTop={2}>
        
+        
+        <Grid item xs={12}>
+          <TextField
+         
+            label="Bank Name"
+            variant="outlined"
+            fullWidth
+            name="bankname"
+            onBlur={formik.handleBlur} 
+            value={formik.values.bankname}
+            onChange={handleChange}
+            error={formik.touched.bankname && Boolean(formik.errors.bankname)}
+            helperText={formik.touched.bankname && formik.errors.bankname}
+          />
+        </Grid>
         <Grid item xs={12} sm={6}>
+          <TextField
+       
+            label="Bank Account Number"
+            variant="outlined"
+            fullWidth
+            name="bankaccountnumber"
+            onBlur={formik.handleBlur} 
+            value={formik.values.bankaccountnumber}
+            onChange={handleChange}
+            error={
+              formik.touched.bankaccountnumber &&
+              Boolean(formik.errors.bankaccountnumber)
+            }
+            helperText={
+              formik.touched.bankaccountnumber && formik.errors.bankaccountnumber
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="IFSC"
+            variant="outlined"
+            fullWidth
+            name="ifsc"
+            onBlur={formik.handleBlur} 
+            value={formik.values.ifsc}
+            onChange={handleChange}
+            error={
+              formik.touched.ifsc &&
+              Boolean(formik.errors.ifsc)
+            }
+            helperText={
+              formik.touched.ifsc && formik.errors.ifsc
+            }
+              />
+              </Grid>
+              <Grid item xs={12} sm={6}>
           <TextField
            
             label="PAN"
@@ -94,57 +146,6 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
             helperText={formik.touched.aadhaar && formik.errors.aadhaar}
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-         
-            label="Bank Name"
-            variant="outlined"
-            fullWidth
-            name="bankname"
-            onBlur={formik.handleBlur} 
-            value={formik.values.bankname}
-            onChange={handleChange}
-            error={formik.touched.bankname && Boolean(formik.errors.bankname)}
-            helperText={formik.touched.bankname && formik.errors.bankname}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-       
-            label="Bank Account Number"
-            variant="outlined"
-            fullWidth
-            name="bankaccountnumber"
-            onBlur={formik.handleBlur} 
-            value={formik.values.bankaccountnumber}
-            onChange={handleChange}
-            error={
-              formik.touched.bankaccountnumber &&
-              Boolean(formik.errors.bankaccountnumber)
-            }
-            helperText={
-              formik.touched.bankaccountnumber && formik.errors.bankaccountnumber
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="IFSC"
-            variant="outlined"
-            fullWidth
-            name="ifsc"
-            onBlur={formik.handleBlur} 
-            value={formik.values.ifsc}
-            onChange={handleChange}
-            error={
-              formik.touched.ifsc &&
-              Boolean(formik.errors.ifsc)
-            }
-            helperText={
-              formik.touched.ifsc && formik.errors.ifsc
-            }
-              />
-              </Grid>
    
   </Grid>
 </form>
