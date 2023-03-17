@@ -1,18 +1,17 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import AddUser from './components/addUser/addUser';
-import { RootState } from './store/reducer/rootReducer';
 import StartPage from './components/startPage/startpage';
 import { motion } from 'framer-motion';
 import UserList from './components/userList/userList';
 import "./App.css"
-
+import { RootState } from './store/userStore/userStore';
 
 
 const App: FC = () => {
-  let  display = []
 
-  const numberOfUsers:number = useSelector((state: RootState) => state.userReducer.users.length);
+
+
+  const getTotalUsers :number = useSelector((state: RootState) => state.users.length);
 
 
   return (
@@ -25,7 +24,7 @@ const App: FC = () => {
 
       </motion.div>
 
-      {numberOfUsers == 0 ? <StartPage/> : <UserList />}
+      {getTotalUsers == 0 ? <StartPage/> : <UserList />}
     </div>
   );
 }

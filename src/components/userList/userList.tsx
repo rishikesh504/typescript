@@ -7,10 +7,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import { filteredresults } from '../utility/function';
 import { motion } from 'framer-motion';
-import { RootState } from '../../store/reducer/rootReducer';
+import { RootState } from '../../store/userStore/userStore';
+import { Search_User } from '../../store/reducer/reducer';
+import { Add_User,Delete_User,Update_User } from '../../store/reducer/reducer';
 import User from '../../types/userType';
 import AddUser from '../addUser/addUser';
-import { deleteUser } from '../../store/actions/actions';
 import EditUser from '../editUser/editUser';
 import SearchComponent from '../searchComponent/searchUser';
 
@@ -57,18 +58,20 @@ const StyledTable = styled(Table)({
 
 const UserList = () => {
   const dispatch = useDispatch()
-  const totalusers = useSelector((state: RootState) => state.userReducer.users)
+  const totalusers = useSelector((state: RootState) => state.users)
+  const filterusers = useSelector((state: RootState) => state.filterUsers)
   const [editUser, setEditUser] = useState({});
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery,setSearchQuery] = useState('')
   const [editingState, setEditingState] = useState(false)
 
-  const users = searchQuery.length !== 0 ? filteredresults(searchQuery,totalusers) : totalusers
+  const users = searchQuery.length > 0 ? filterusers : totalusers
   const rows = users
 
-  const onChangeQuery = (query:any) => {
+  const onChangeQuery = (query:string) => {
     setSearchQuery(query);
+    
   };
   
   const handleEditUser = (user:User) => {
@@ -76,7 +79,7 @@ const UserList = () => {
   };
 
   const handleDeleteUser = (user:User) => {
-    dispatch(deleteUser(user))
+    dispatch(Delete_User(user))
   };
 
   const handleEditingState = () =>{
@@ -107,7 +110,7 @@ const UserList = () => {
       <div style={{display:'flex',width:'80%',justifyContent:'space-between',marginLeft:'10%'}}>
       <AddUser/>
       <SearchComponent  searchQuery={searchQuery}
-        onChangeQuery={onChangeQuery}/>
+        onChangeQuery={onChangeQuery} users= {totalusers}/>
         </div>
       <StyledTable>
         <TableHead >

@@ -3,13 +3,13 @@ import { useDispatch ,useSelector} from "react-redux"
 import { Button } from "@mui/material"
 import { motion } from "framer-motion"
 import User from "../../types/userType"
-import { addUser } from "../../store/actions/actions"
+import { Add_User } from "../../store/reducer/reducer"
 import StepperForm from "../stepper/stepperMain/stepperForm"
-import { RootState } from "../../store/reducer/rootReducer";
+import { RootState } from "../../store/userStore/userStore"
 
 
 const AddUser = () => {    
-   const numberOfUsers:User[] = useSelector((state: RootState) => state.userReducer.users); 
+   const numberOfUsers:User[] = useSelector((state: RootState) => state.users); 
    const maxId = numberOfUsers.length > 0 ? Math.max(...numberOfUsers.map(user => user.id)) : 0;
    const[user, setUser]= useState<User>(
     {
@@ -52,7 +52,7 @@ const AddUser = () => {
   }
 
   const handleSubmit = (user:User) => {
-      dispatch(addUser(user))
+      dispatch(Add_User(user))
       setOpenModel(!openModel)
       setUser({
         id : maxId+2,

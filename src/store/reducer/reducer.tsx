@@ -1,7 +1,8 @@
 import User from "../../types/userType";
 import { UserAction } from "../../types/actionCreatorType";
 import ActionTypes from "../../types/actionType";
-import { RootState } from "./rootReducer";
+import { filteredresults } from "../../components/utility/function";
+
 
 
 
@@ -56,49 +57,98 @@ import { RootState } from "./rootReducer";
 
 
 
-interface UserState {
-  users: User[];
-}
+// interface UserState {
+//   users: User[];
+// }
 
-const initialState: UserState = {
+// const initialState: UserState = {
 
-  users: []
+//   users: []
 
   
    
-}
-export const userReducer = (
+// }
+// export const userReducer = (
   
-  state: UserState = initialState,
+//   state: UserState = initialState,
   
-  action: UserAction
-): UserState => {
+//   action: UserAction
+// ): UserState => {
 
 
-  switch (action.type) {
-    case ActionTypes.ADD_USER:
-      return {
-        ...state,
-        users: [...state.users, action.payload],
-      };
-    case ActionTypes.DELETE_USER:
-      return {
-        ...state,
-        users: state.users.filter((user) => user.id !== action.payload.id),
-      };
-    case ActionTypes.UPDATE_USER:
-      return {
-        ...state,
-        users: state.users.map((user) =>
-          user.id === action.payload.id ? action.payload : user
-        ),
-      };
-    default:
-      return state;
-  }
-};
+//   switch (action.type) {
+//     case ActionTypes.ADD_USER:
+//       return {
+//         ...state,
+//         users: [...state.users, action.payload],
+//       };
+//     case ActionTypes.DELETE_USER:
+//       return {
+//         ...state,
+//         users: state.users.filter((user) => user.id !== action.payload.id),
+//       };
+//     case ActionTypes.UPDATE_USER:
+//       return {
+//         ...state,
+//         users: state.users.map((user) =>
+//           user.id === action.payload.id ? action.payload : user
+//         ),
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 
 // export const usersTotal = (state: RootState) => state.userReducer.users;
+
+
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
+ interface UserState {
+   users: User[];
+   filterUsers: User[]
+}
+
+
+const initialState: UserState = {
+   users: [],
+   filterUsers : []
+   
+}
+
+export const usersSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {
+    Add_User(state, action) {
+      state.users.push(action.payload)
+    },
+    Delete_User(state, action) {
+      
+      state.users = state.users.filter(user => user.id !== action.payload.id)
+      
+    },
+    Update_User(state, action) {
+      state.users = state.users.map((user) =>user.id === action.payload.id ? action.payload : user)
+    },
+    
+    Search_User(state, action) {
+      state.filterUsers = filteredresults(action.payload,state.users)
+    
+    }
+
+  
+  },
+
+})
+
+// Action creators are generated for each case reducer function
+export const { Add_User,Delete_User,Update_User,Search_User } = usersSlice.actions
+
+export default usersSlice.reducer
+
+
 
 
