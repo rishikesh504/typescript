@@ -1,10 +1,12 @@
 
-import React from "react";
+import React, {useEffect} from "react";
 // import {useDispatch} from "react-redux";
 // import { searchUser } from "../../actions/actions";
 import {motion} from "framer-motion"
-
-
+import { Search_User} from "../../store/reducer/reducer";
+import { useDispatch } from "react-redux";
+import { Update } from "@mui/icons-material";
+import User from "../../types/userType";
 
 
 
@@ -14,11 +16,40 @@ import {motion} from "framer-motion"
 interface SearchUserProps {
   searchQuery: string;
   onChangeQuery: any;
+  users:User[]
 }
 
-const SearchComponent = ({ searchQuery, onChangeQuery }: SearchUserProps) => {
+const SearchComponent = ({ searchQuery, onChangeQuery,users }: SearchUserProps) => {
+
+
+  useEffect(() => {
+  
+    let timerId :any ;
+
+    function handleDispatchSearch() {
+      console.log("here")
+      dispatch(Search_User(searchQuery))   
+   
+    }
+
+    timerId = setTimeout(handleDispatchSearch, 500);
+    return () => clearTimeout(timerId);
+
+  }, [searchQuery,users]);
+
+ 
+
+
+
+
+
+
+  const dispatch = useDispatch()
+
+
   const handleSearch = (event: any) => {
     onChangeQuery(event.target.value);
+    
   };
 
 

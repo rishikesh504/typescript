@@ -117,7 +117,7 @@ const ExperienceForm = ({
                     <Grid container key={`${index}`}>
                         <Card key={index} sx={{ boxShadow: 1, backgroundColor: 'white', border: 1, borderColor: 'grey.400', borderRadius: '16px', my: 1 }}>
                             <Box p={2}>
-                                <span style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}><h2> {experience.role || `Experience${index + 1}`} </h2>
+                                <span style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}><h2> {experience.role || `Experience ${index + 1}`} </h2>
                                     <DeleteIcon
                                         onClick={() =>
                                             formik.setFieldValue("experiences", values.experiences.filter((_, i) => i !== index))}
@@ -231,7 +231,7 @@ const ExperienceForm = ({
                         </Card>
                     </Grid>
                 )
-            })}
+            }).reverse()}
 
 
 

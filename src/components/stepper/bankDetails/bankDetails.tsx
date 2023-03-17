@@ -131,10 +131,10 @@ const BankDetailsForm = ( {onBankDetailsChange,user,proceedNext,setProceedNext }
             label="PAN"
             variant="outlined"
             fullWidth
-            name="pan" // add name attribute for formik to track this field
+            name="pan" 
             value={formik.values.pan}
-            onBlur={formik.handleBlur} // add value attribute to reflect formik values
-            onChange={handleChange} // use handleChange function for onChange event
+            onBlur={formik.handleBlur} 
+            onChange={handleChange}
             error={formik.touched.pan && Boolean(formik.errors.pan)}
             helperText={formik.touched.pan && formik.errors.pan}
           />

@@ -3,10 +3,10 @@ import { useDispatch ,useSelector} from "react-redux"
 import { Button } from "@mui/material"
 import { motion } from "framer-motion"
 import User from "../../types/userType"
-import { addUser } from "../../store/actions/actions"
+import { Add_User } from "../../store/reducer/reducer"
 import StepperForm from "../stepper/stepperMain/stepperForm"
-import { RootState } from "../../store/reducer/rootReducer";
-import { updateUser } from "../../store/actions/actions"
+import { RootState } from "../../store/userStore/userStore"
+import { Update_User } from "../../store/reducer/reducer"
 import styled from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -65,7 +65,7 @@ const EditUser = ({handleEditingState,editUser,editingState,handleEditUser}:Edit
   }
 
   const handleSubmit = (user:User) => {
-    dispatch(updateUser(user))
+    dispatch(Update_User(user))
 
     handleEditingState()
 

@@ -19,6 +19,8 @@ interface PersonalDetailsProps {
 
 }
 
+
+
 const phoneRegex = RegExp(
     /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 );
@@ -26,6 +28,9 @@ const phoneRegex = RegExp(
 const pincodeRegex = RegExp(
     /^(\d{4}|\d{6})$/
 )
+
+
+
 
 const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -51,6 +56,11 @@ const validationSchema = Yup.object({
         )
         .required("Date of birth is required"),
 });
+
+
+
+
+
 
 const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setProceedNext }: PersonalDetailsProps) => {
     
@@ -78,13 +88,15 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
         }
     }, [formik.isValid, formik.values]);
 
+
+    
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         formik.handleChange(event);
     };
     const handleDateOfBirthChange = (date: Date | null) => {
       
-        formik.setFieldValue("dateofbirth", date); // use correct field name
-
+        formik.setFieldValue("dateofbirth", date); 
     };
 
 
@@ -98,10 +110,9 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                         variant="outlined"
                         fullWidth
                         name="name"
-                        onBlur={formik.handleBlur}// add name attribute for formik to track this field
+                        onBlur={formik.handleBlur}
                         value={formik.values.name}
-                        // add value attribute to reflect formik values
-                        onChange={handleChange} // use handleChange function for onChange event
+                        onChange={handleChange} 
                         error={formik.touched.name && Boolean(formik.errors.name)}
                         helperText={formik.touched.name && formik.errors.name}
                     />
@@ -172,7 +183,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                                 <DatePicker
                                     label="Date of birth"
                                     inputFormat="DD/MM/YYYY"
-                                    value={formik.values.dateofbirth} // use correct field name
+                                    value={formik.values.dateofbirth} 
                                     onChange={handleDateOfBirthChange}
 
                                     renderInput={(params) => (
@@ -180,7 +191,7 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                                         <TextField
                                             {...params}
                                         
-                                            name="dateofbirth" // use correct field name
+                                            name="dateofbirth" 
                                         error={Boolean(formik.errors.dateofbirth)}
                                         helperText={formik.touched.dateofbirth || formik.errors.dateofbirth  ? formik.errors.dateofbirth+"":''}
                                         onBlur={formik.handleBlur}
@@ -261,18 +272,6 @@ const PersonalDetailsForm = ({ onPersonalDetailsChange, user, proceedNext, setPr
                         helperText={formik.touched.pincode && formik.errors.pincode}
                     />
                 </Grid>
-
-
-                {/* <Grid item xs={12}>
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={formik.isSubmitting}
-      >
-        Submit
-      </Button>
-    </Grid> */}
             </Grid>
         </form>
     );
