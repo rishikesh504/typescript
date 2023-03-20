@@ -1,7 +1,7 @@
 import React from 'react';
 import {useEffect} from 'react';
 import { useFormik } from 'formik';
-import { Button, Grid, Typography,TextField } from '@mui/material';
+import {Grid,TextField } from '@mui/material';
 import * as Yup from 'yup';
 import BankDetails from '../../../types/userBankDetails';
 import User from '../../../types/userType';
